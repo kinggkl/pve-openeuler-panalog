@@ -70,6 +70,6 @@ cat <<'EOF'
        mkfs.xfs /dev/<盘符>1
        mkdir -p /data && mount /dev/<盘符>1 /data
        echo "UUID=$(blkid -s UUID -o value /dev/<盘符>1) /data xfs defaults 0 0" >> /etc/fstab
-  2. 安装 PanaLog Ultra（见 README.md 注意事项）
+  2. 安装 PanaLog Ultra（见 PANALOG-ULTRA-INSTALL.md；数据盘交给 install.sh 处理，挂 /logdata）
 ──────────────────────────────────────────────
 EOF

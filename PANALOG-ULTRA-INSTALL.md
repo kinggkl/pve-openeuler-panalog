@@ -42,6 +42,8 @@ sh install.sh ens18 172.16.128.118 255.255.255.0 172.16.128.1
 #    "Please select a disk for data: " → 输入数据盘（如 /dev/sdb）
 #    脚本自动：dd 清签名 → mkfs.xfs → 挂载 /logdata → 写 fstab
 #    若 /logdata 已挂载则跳过此交互；也可选 "/" 用根分区存储
+#    ⚠️ 数据盘完全由 install.sh 处理（挂 /logdata）——建机脚本里的 /data 手动挂载步骤
+#       仅适用于非 Ultra 通用场景，装 Panalog Ultra 时跳过
 
 # 4. 装完提示重启（Y/N），建议先 N 检查输出，再重启验证自启动
 ```

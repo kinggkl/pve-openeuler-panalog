@@ -130,12 +130,14 @@ bash build-openeuler-panalog.sh 110 40 100
 
 ---
 
-## 五、PanaLog Ultra 部署注意事项（基于 7 月分析）
+## 五、PanaLog Ultra 部署（最新结论，2026-08-09 实测）
 
-- `PanalogUltra_JIUZHANGr1p5` 是 **App 层升级包**（PHP + MySQL + 模块），此前分析结论：依赖 Panabit OS 基础（`/usr/ramdisk`、`/usr/panabit`、UltraDB/nginx/PHP/Fluent Bit）
-- **风险提示**：若 Ultra 包要求 Panabit OS 运行环境，直接装 openEuler 需适配基础环境；若确认有欧拉可用的安装路径，数据盘挂 `/data` 已就绪
-- 备选路径（历史已验证）：VM 201 `panalog-r7p6t-bios`（Panalog JUPITER ISO 原生安装，BIOS 模式）
-- 内存建议 8G（UltraDB + PHP + nginx + Fluent Bit 同机运行）
+> **早期分析（7 月）曾认为 Ultra 依赖 Panabit OS 基础、无法独立安装——该结论已被推翻。**
+
+- **Panalog2.0 = Panalog Ultra**，官方提供独立 **install 包**（`PanalogUltra_JIUZHANGr1p4_..._Linux5_install.tar.gz`，319M），**可直接全新安装在 openEuler 上**（自带 nginx/php-fpm/fluent-bit/UltraDB 完整运行时）
+- install 包不在官网公开下载中心，需通过官方渠道获取；升级包（JIUZHANG r1p6）仅用于已装 Ultra 的系统在线升级
+- 安装实录、openEuler 前置依赖（tar/xfsprogs/net-tools/cronie/chrony）、完整流程与坑 → **见 [`PANALOG-ULTRA-INSTALL.md`](PANALOG-ULTRA-INSTALL.md)**
+- 数据盘由 install.sh 自动处理（选盘 → 格式化 → 挂 `/logdata`），**不需要按本 README 脚本手动挂 `/data`**
 
 ---
 
@@ -155,4 +157,5 @@ reboot && 重新登录                          # fstab 持久化验证
 ```
 build-openeuler-panalog.sh     一键建机脚本（从你的标准镜像克隆，VMID 可参数化）
 README.md                      本文档（含母盘制作流程）
+PANALOG-ULTRA-INSTALL.md       Panalog Ultra 在 openEuler 上的安装实录（实测）
 ```
