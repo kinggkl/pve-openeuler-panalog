@@ -29,7 +29,7 @@
 
 ```bash
 VMID=110
-NAME=openeuler-gold-build        # 母盘制作机，名字随意
+NAME=openeuler-standard-build     # 母盘制作机，名字随意
 TEMPLATE=/var/lib/vz/template/qcow2/openEuler-24.03-LTS-SP4-x86_64.qcow2
 
 # 官方 openEuler 24.03 SP4 云镜像下载地址（华为云镜像站）：
