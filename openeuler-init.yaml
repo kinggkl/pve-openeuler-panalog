@@ -1,0 +1,12 @@
+#cloud-config
+# openEuler 初始化 snippet：
+#  1) 修复默认禁止 root 密码 SSH（#PermitRootLogin yes 注释态）
+#  2) 生成缺失的 SSH host key
+#  3) 安装并启用 qemu-guest-agent（PVE 原生集成：IP/状态/优雅关机）
+packages:
+  - qemu-guest-agent
+runcmd:
+  - sed -i 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+  - ssh-keygen -A || true
+  - systemctl restart sshd
+  - systemctl enable --now qemu-guest-agent
