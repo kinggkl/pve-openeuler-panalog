@@ -1,12 +1,12 @@
 #!/bin/bash
 # ============================================================
 # PVE 快速构建 openEuler 24.03 VM —— 用于部署 PanaLog Ultra
-# 金镜像模式：模板已固化 qemu-guest-agent + root SSH 修复
+# 标准镜像模式：从你自己的母盘（已固化 qemu-guest-agent + root SSH 修复）克隆
 # 适用: localpve (172.16.128.116), pve-manager 9.2.x
 # 用法: bash build-openeuler-panalog.sh [VMID] [系统盘G] [数据盘G]
 # 例:   bash build-openeuler-panalog.sh 110 40 100
-# 前置: 金镜像模板 /var/lib/vz/template/qcow2/openEuler-24.03-LTS-SP4-agent.qcow2
-#       （由已修复实例导出，自带 qemu-guest-agent + SSH 修复）
+# 前置: 标准镜像模板（制作方法见 README.md 第一节）
+#       /var/lib/vz/template/qcow2/openEuler-24.03-LTS-SP4-standard.qcow2
 # ============================================================
 set -euo pipefail
 
@@ -14,9 +14,9 @@ VMID=${1:-110}
 DISK_SYS=${2:-40}
 DISK_DATA=${3:-100}
 NAME="panalog-ultra-euler"
-TEMPLATE="/var/lib/vz/template/qcow2/openEuler-24.03-LTS-SP4-agent.qcow2"
+TEMPLATE="/var/lib/vz/template/qcow2/openEuler-24.03-LTS-SP4-standard.qcow2"
 
-[ -f "$TEMPLATE" ] || { echo "❌ 金镜像模板不存在: $TEMPLATE"; exit 1; }
+[ -f "$TEMPLATE" ] || { echo "❌ 标准镜像模板不存在: $TEMPLATE（先按 README 第一节制作）"; exit 1; }
 qm status $VMID >/dev/null 2>&1 && { echo "❌ VMID $VMID 已存在"; exit 1; }
 
 echo "==> 1/5 创建 VM 骨架 (${NAME}, ${VMID})"
@@ -26,7 +26,7 @@ qm create $VMID --name "$NAME" --memory 8192 --cores 4 --cpu host \
   --agent enabled=1 \
   --boot order=scsi0
 
-echo "==> 2/5 导入系统盘 (金镜像 → scsi0, ${DISK_SYS}G)"
+echo "==> 2/5 导入系统盘 (标准镜像 → scsi0, ${DISK_SYS}G)"
 # --format=qcow2 必须显式指定：默认导入为 raw（vm-XXX-disk-0.raw），
 # 与下方 scsi0 的 qcow2 路径不一致会导致 volume does not exist
 qm importdisk $VMID "$TEMPLATE" local --format=qcow2
@@ -59,7 +59,7 @@ except Exception: pass
   [ -n "$IP" ] && break
   sleep 10
 done
-[ -n "$IP" ] && echo "✅ VM $VMID 就绪: $IP (root，密码为金镜像模板预置值)" || echo "⚠️ 未定位 IP，请到 PVE Web 控制台查看"
+[ -n "$IP" ] && echo "✅ VM $VMID 就绪: $IP (root，密码为标准镜像模板预置值)" || echo "⚠️ 未定位 IP，请到 PVE Web 控制台查看"
 
 cat <<'EOF'
 ──────────────────────────────────────────────
