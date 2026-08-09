@@ -158,4 +158,5 @@ reboot && 重新登录                          # fstab 持久化验证
 build-openeuler-panalog.sh     一键建机脚本（从你的标准镜像克隆，VMID 可参数化）
 README.md                      本文档（含母盘制作流程）
 PANALOG-ULTRA-INSTALL.md       Panalog Ultra 在 openEuler 上的安装实录（实测）
+LXC-ULTRA-DEPLOYMENT.md        LXC 容器部署形态验证（Ubuntu/openEuler，hugepage 依赖）
 ```
