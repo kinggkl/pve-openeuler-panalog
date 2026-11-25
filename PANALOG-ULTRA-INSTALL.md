@@ -36,7 +36,7 @@ dnf install -y tar xfsprogs net-tools cronie chrony
 cd /root && tar xzf PanalogUltra_JIUZHANGr1p4_20260519_Linux5_install.tar.gz
 
 # 2. 执行（4 参数 = 网卡/IP/掩码/网关，免网络交互）
-sh install.sh ens18 172.16.128.118 255.255.255.0 172.16.128.1
+sh install.sh ens18 198.51.100.11 255.255.255.0 198.51.100.1
 
 # 3. 交互项：数据盘选择
 #    "Please select a disk for data: " → 输入数据盘（如 /dev/sdb）

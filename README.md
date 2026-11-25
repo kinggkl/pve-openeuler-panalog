@@ -1,6 +1,6 @@
 # PVE 快速构建 openEuler 标准镜像 —— PanaLog Ultra 部署方案
 
-> 适用：localpve（172.16.128.116，pve-manager 9.2.4）· 2026-08-09
+> 适用：pve-host（198.51.100.10，pve-manager 9.2.4）· 2026-08-09
 > 定位：**方法说明文档**。不提供任何镜像下载；按本文步骤在你的 PVE 上生成自己的标准镜像（母盘），之后重复使用。
 > 依据：VM 110 实测验证（2026-08-09 全流程跑通），VM 102 经验作为对比基线
 
@@ -107,7 +107,7 @@ bash build-openeuler-panalog.sh 110 40 100
 |---|---|
 | 构建全流程 | ✅ 无报错（importdisk qcow2 / 数据盘 / 启动） |
 | SSH root 密码登录 | ✅ `SSH_LOGIN_OK`（母盘已修 PermitRootLogin） |
-| guest agent | ✅ `qm guest cmd network-get-interfaces` 返回 IP 172.16.128.118 |
+| guest agent | ✅ `qm guest cmd network-get-interfaces` 返回 IP 198.51.100.11 |
 | 数据盘 | ✅ 100G 出现（VM 110 中为 sda；VM 102 中为 sdb — **盘序不固定，以 lsblk 为准**） |
 | 重启持久化 | ✅ agent + SSH 重启后均正常 |
 | 优雅关机 | ✅ `qm shutdown` 走 agent 通道成功 |
@@ -126,7 +126,7 @@ bash build-openeuler-panalog.sh 110 40 100
 | 6 | **virtio-scsi 热插拔** | 运行中 `qm set --scsi1` 后 VM 内立即出现新盘 | 使用 `scsihw: virtio-scsi-pci`，无需重启 |
 | 7 | **mkfs 属不可代理操作** | Hermes 终端安全策略硬性阻止 `mkfs` | 数据盘格式化必须在 VM 内手动执行（脚本末尾已附命令） |
 | 8 | **guest agent 安装依赖源** | `dnf install qemu-guest-agent` 需 openEuler 软件源 | 制作母盘时源需可达（本环境 repo.openeuler.org 已验证） |
-| 9 | **网络可达性** | sz-hermes 直连 172.16.128.0/24 不通 | 经 `ts-sz-secondary` 容器转发（`docker run --network container:ts-sz-secondary`） |
+| 9 | **网络可达性** | edge-host 直连 198.51.100.0/24 不通 | 经 `ts-secondary` 容器转发（`docker run --network container:ts-secondary`） |
 
 ---
 

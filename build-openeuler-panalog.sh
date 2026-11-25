@@ -2,7 +2,7 @@
 # ============================================================
 # PVE 快速构建 openEuler 24.03 VM —— 用于部署 PanaLog Ultra
 # 标准镜像模式：从你自己的母盘（已固化 qemu-guest-agent + root SSH 修复）克隆
-# 适用: localpve (172.16.128.116), pve-manager 9.2.x
+# 适用: pve-host (198.51.100.10), pve-manager 9.2.x
 # 用法: bash build-openeuler-panalog.sh [VMID] [系统盘G] [数据盘G]
 # 例:   bash build-openeuler-panalog.sh 110 40 100
 # 前置: 标准镜像模板（制作方法见 README.md 第一节）
